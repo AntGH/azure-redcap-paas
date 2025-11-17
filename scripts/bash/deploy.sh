@@ -52,7 +52,7 @@ if [ -z "$APPSETTING_redcapAppZip" ]; then
     export APPSETTING_zipVersion="latest"
   fi
   
-  wget --method=post -O $redcapZipPath -q --body-data="username=$APPSETTING_redcapCommunityUsername&password=$APPSETTING_redcapCommunityPassword&version=$APPSETTING_zipVersion&install=1" --header=Content-Type:application/x-www-form-urlencoded https://redcap.vanderbilt.edu/plugins/redcap_consortium/versions.php
+  wget --method=post -O $redcapZipPath -q --body-data="username=$APPSETTING_redcapCommunityUsername&password=$APPSETTING_redcapCommunityPassword&version=$APPSETTING_zipVersion&install=1" --header=Content-Type:application/x-www-form-urlencoded https://redcap.vumc.org/plugins/redcap_consortium/versions.php
 
   # check to see if the redcap.zip file contains the word error
   if [ -z "$(grep -i error redcap.zip)" ]; then
@@ -140,5 +140,3 @@ cp /home/site/repository/scripts/bash/postbuild.sh /home/site/deployments/tools/
 ####################################################################################
 
 cp /home/site/repository/scripts/bash/startup.sh /home/startup.sh
-
-#echo "mysql: $(which mysql)" >> /home/site/log-$stamp.txt
