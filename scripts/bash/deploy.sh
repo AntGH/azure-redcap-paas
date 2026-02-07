@@ -26,10 +26,13 @@ echo "extension=/usr/local/lib/php/extensions/no-debug-non-zts-20220829/mysqli.s
 ####################################################################################
 #
 # Download REDCap zip file and unzip to wwwroot
-# If zip file path exists just download it; otherwise 
+# If zip file path exists just download it; otherwise
 # make a call # to REDCap community site and download it
 #
 ####################################################################################
+
+echo "Installing unzip" >> "/home/site/log-${stamp}.txt"
+apt-get update -qq && apt-get install -yqq unzip
 
 redcapZipPath="/tmp/redcap.zip"
 
@@ -51,7 +54,7 @@ if [ -z "$APPSETTING_redcapAppZip" ]; then
     echo "zipVersion is null or empty. Setting to latest" >> /home/site/log-$stamp.txt
     export APPSETTING_zipVersion="latest"
   fi
-  
+
   wget --method=post -O $redcapZipPath -q --body-data="username=$APPSETTING_redcapCommunityUsername&password=$APPSETTING_redcapCommunityPassword&version=$APPSETTING_zipVersion&install=1" --header=Content-Type:application/x-www-form-urlencoded https://redcap.vumc.org/plugins/redcap_consortium/versions.php
 
   # check to see if the redcap.zip file contains the word error
@@ -70,7 +73,7 @@ fi
 echo "Unzipping redcap.zip" >> /home/site/log-$stamp.txt
 
 rm -rf /home/site/wwwroot/*
-unzip -oq $redcapZipPath -d /tmp/wwwroot 
+unzip -oq $redcapZipPath -d /tmp/wwwroot
 
 echo "Moving REDCap files to wwwroot" >> /home/site/log-$stamp.txt
 
@@ -116,7 +119,7 @@ cp /home/site/repository/Files/settings.ini /home/site/ini/redcap.ini
 
 ####################################################################################
 #
-# For better security, it is recommended that you enable the 
+# For better security, it is recommended that you enable the
 # session.cookie_secure option in your web server's PHP.INI file
 #
 ####################################################################################
