@@ -88,7 +88,7 @@ echo "Updating database connection info in database.php" >> /home/site/log-$stam
 
 cd /home/site/wwwroot
 
-wget --no-check-certificate https://dl.cacerts.digicert.com/DigiCertGlobalRootCA.crt.pem
+wget --no-check-certificate -O "${APPSETTING_DBSslCa:-/home/site/wwwroot/DigiCertGlobalRootCA.crt.pem}" https://cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem
 
 sed -i "s|hostname[[:space:]]*= '';|hostname = getenv('DBHostName');|" database.php
 sed -i "s|db[[:space:]]*= '';|db = getenv('DBName');|" database.php
