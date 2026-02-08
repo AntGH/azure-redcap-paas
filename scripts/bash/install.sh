@@ -9,9 +9,12 @@ echo -e "\nHello from install.sh"
 
 echo "mysql: $(which mysql)"
 
+# Azure MySQL Flexible Server uses DigiCert Global Root G2 for TLS
+wget -q --no-check-certificate -O /home/site/wwwroot/DigiCertGlobalRootCA.crt.pem https://cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem
+
 ####################################################################################
 #
-# Update additional configuration settings including 
+# Update additional configuration settings including
 # user file uploading settings to Azure Blob Storage
 #
 ####################################################################################
