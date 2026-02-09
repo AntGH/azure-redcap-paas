@@ -12,6 +12,14 @@ apt-get update -qq && apt-get install cron sendmail -yqq
 
 ####################################################################################
 #
+# Allow Imagick to read PDF files (required for REDCap PDF rendering)
+#
+####################################################################################
+
+[ -f /etc/ImageMagick-6/policy.xml ] && sed -i 's~<policy domain="coder" rights="none" pattern="PDF" />~<policy domain="coder" rights="read" pattern="PDF" />~' /etc/ImageMagick-6/policy.xml
+
+####################################################################################
+#
 # Configure REDCap cronjob to run every minute
 #
 ####################################################################################
