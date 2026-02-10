@@ -70,14 +70,14 @@ else
   wget -q -O $redcapZipPath $APPSETTING_redcapAppZip
 fi
 
-echo "Unzipping redcap.zip" >> /home/site/log-$stamp.txt
-
+echo "Unzipping redcap.zip to /tmp/wwwroot" >> /home/site/log-$stamp.txt
 rm -rf /home/site/wwwroot/*
 unzip -oq $redcapZipPath -d /tmp/wwwroot
 
-echo "Moving REDCap files to wwwroot" >> /home/site/log-$stamp.txt
+echo "Copying REDCap files to wwwroot using tar" >> /home/site/log-$stamp.txt
+cd /tmp/wwwroot/redcap && (tar cf - .) | (cd /home/site/wwwroot && tar xf -)
 
-mv -f /tmp/wwwroot/redcap/* /home/site/wwwroot/
+# Cleanup: remove temp dir and downloaded zip
 rm -rf /tmp/wwwroot
 rm -f $redcapZipPath
 
@@ -143,3 +143,5 @@ cp /home/site/repository/scripts/bash/postbuild.sh /home/site/deployments/tools/
 ####################################################################################
 
 cp /home/site/repository/scripts/bash/startup.sh /home/startup.sh
+
+echo "Deploy script execution finished." >> "/home/site/log-${stamp}.txt"
